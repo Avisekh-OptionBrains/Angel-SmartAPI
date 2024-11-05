@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="assets/img/favicon.svg" rel="icon" />
+    <link href="assets/img/apple-touch-icon.svg" rel="apple-touch-icon" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tree Map Chart with ECharts - Responsive</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.min.js"></script>
+    <style>
+      #main {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 767px) {
+        #main {
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="main"></div>
+
+    <script>
+      const data = [
+        { name: "HDFC BANK LTD", value: 19.02 },
+        { name: "ICICI BANK LTD", value: 13.7 },
+        { name: "STATE BANK OF INDIA", value: 10.77 },
+        { name: "HOUSING DEVELOPMENT FINANCE CORPORATION LTD", value: 10.41 },
+        { name: "BAJAJ FINANCE LTD", value: 9.49 },
+        { name: "KOTAK MAHINDRA BANK LTD", value: 7.69 },
+        { name: "AXIS BANK LTD", value: 6.31 },
+        { name: "BAJAJ FINSERV LTD", value: 5.21 },
+        { name: "HDFC LIFE INSURANCE CO LTD", value: 2.86 },
+        { name: "SBI LIFE INSURANCE COMPANY LTD", value: 2.72 },
+        { name: "CHOLAMANDALAM INVESTMENT & FINANCE COMPANY LTD", value: 1.98 },
+        { name: "ICICI PRUDENTIAL LIFE INSURANCE COMPANY LTD", value: 1.68 },
+        { name: "BAJAJ HOLDINGS & INVESTMENT LTD", value: 1.65 },
+        { name: "ICICI LOMBARD GENERAL INSURANCE CO LTD", value: 1.31 },
+        { name: "SHRIRAM FINANCE LTD", value: 1.17 },
+        { name: "POWER FINANCE CORPORATION LTD", value: 1.11 },
+        { name: "HDFC ASSET MANAGEMENT COMPANY LTD", value: 0.86 },
+        { name: "REC LTD", value: 0.86 },
+        { name: "MAHINDRA & MAHINDRA FINANCIAL SERVICES LTD", value: 0.83 },
+        { name: "PIRAMAL ENTERPRISES LTD", value: 0.4 },
+      ];
+
+      const chartDom = document.getElementById("main");
+      const myChart = echarts.init(chartDom);
+
+      const option = {
+        tooltip: {
+          formatter: "{b}: {c}%",
+        },
+        series: [
+          {
+            type: "treemap",
+            data: data,
+            leafDepth: 2,
+            levels: [
+              {
+                itemStyle: {
+                  borderColor: "#fff",
+                  borderWidth: 2,
+                  gapWidth: 2,
+                },
+              },
+            ],
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 16,
+                fontWeight: "bold",
+              },
+            },
+          },
+        ],
+      };
+
+      myChart.setOption(option);
+
+      // Resize the chart when the window size changes
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    </script>
+  </body>
+</html>

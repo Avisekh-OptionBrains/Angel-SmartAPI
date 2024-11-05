@@ -55,6 +55,10 @@
         color: red;
         text-align: center;
       }
+      .success-message {
+        color: green;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -78,6 +82,7 @@
 
         <button type="submit">Login</button>
         <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
       </form>
     </div>
 
@@ -93,13 +98,24 @@
         }
       }
 
+      // Function to set a cookie
+      function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+          expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      }
+
       document
         .getElementById("loginForm")
         .addEventListener("submit", async (event) => {
           event.preventDefault();
           const apiKey = event.target.apiKey.value;
           const clientCode = event.target.clientCode.value;
-          const password = event.target.password.value;
+          const password = event.target.password.value; // Consider not storing the password in cookies
           const totp = event.target.totp.value;
           const macAddress = event.target.macAddress.value;
 
@@ -126,10 +142,28 @@
           if (!result.status) {
             document.getElementById("errorMessage").innerText =
               result.message || "Login failed";
+            document.getElementById("successMessage").innerText = ""; // Clear success message
           } else {
             document.getElementById("errorMessage").innerText = ""; // Clear error message
-            console.log(result);
-            // Redirect or handle successful login here
+            document.getElementById("successMessage").innerText =
+              "Login successful! Redirecting...";
+
+            // Set cookies for user information
+            setCookie("apiKey", apiKey, 7); // Expires in 7 days
+            setCookie("clientCode", clientCode, 7); // Expires in 7 days
+            setCookie("password", password, 7); // This is not recommended; handle with care
+            setCookie("totp", totp, 7); // This is also sensitive; handle with care
+            setCookie("localIP", localIP, 7); // Store local IP
+            setCookie("publicIP", publicIP, 7); // Store public IP
+            setCookie("macAddress", macAddress, 7); // Store MAC address
+
+            // Store the login response (consider serializing if necessary)
+            setCookie("loginResponse", JSON.stringify(result), 7); // Store response as JSON string
+
+            // Redirect to dashboard after 2 seconds
+            setTimeout(() => {
+              window.location.href = "/dashboard.html";
+            }, 2000);
           }
         });
     </script>

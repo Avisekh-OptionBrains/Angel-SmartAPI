@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pomodoro Timer Calculator</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555555;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #dddddd;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 3px;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Pomodoro Timer Calculator</h1>
+
+        <label for="work-duration">Work Duration (minutes):</label>
+        <input type="number" id="work-duration" min="1" value="25">
+        <br><br>
+
+        <label for="break-duration">Break Duration (minutes):</label>
+        <input type="number" id="break-duration" min="1" value="5">
+        <br><br>
+
+        <button onclick="startTimer()">Start Timer</button>
+    </div>
+
+    <script>
+        var workDurationInput = document.getElementById("work-duration");
+        var breakDurationInput = document.getElementById("break-duration");
+
+        function startTimer() {
+            var workDuration = parseInt(workDurationInput.value, 10);
+            var breakDuration = parseInt(breakDurationInput.value, 10);
+
+            if (isNaN(workDuration) || isNaN(breakDuration)) {
+                alert("Please enter valid durations.");
+                return;
+            }
+
+            if (workDuration <= 0 || breakDuration <= 0) {
+                alert("Durations must be greater than zero.");
+                return;
+            }
+
+            var totalDuration = workDuration + breakDuration;
+
+            var workTimer = setInterval(function () {
+                document.querySelector(".container").innerHTML = "<h1>Work Time: " + workDuration + " minutes</h1>";
+
+                if (workDuration === 0) {
+                    clearInterval(workTimer);
+                    var breakTimer = setInterval(function () {
+                        document.querySelector(".container").innerHTML = "<h1>Break Time: " + breakDuration + " minutes</h1>";
+
+                        if (breakDuration === 0) {
+                            clearInterval(breakTimer);
+                            document.querySelector(".container").innerHTML = "<h1>Timer Finished!</h1>";
+                        }
+
+                        breakDuration--;
+                    }, 60000); // 1 minute = 60,000 milliseconds
+                }
+
+                workDuration--;
+            }, 60000); // 1 minute = 60,000 milliseconds
+        }
+    </script>
+</body>
+
+</html>
