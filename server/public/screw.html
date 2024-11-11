@@ -3,169 +3,188 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartAPI Login</title>
+    <title>Place Order Modal</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
+      /* Modal Styling */
+      .modal-content {
+        border-radius: 10px;
       }
-      .login-container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
-      }
-      h1 {
-        text-align: center;
-        color: #333;
-      }
-      label {
-        display: block;
-        margin-bottom: 5px;
-        color: #555;
-      }
-      input[type="text"],
-      input[type="password"] {
+      .btn-place-order {
         width: 100%;
         padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
       }
-      button {
-        width: 100%;
-        padding: 10px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
+      .form-control {
+        margin-bottom: 10px;
       }
-      button:hover {
-        background-color: #218838;
+      .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #ddd;
       }
-      .error-message {
-        color: red;
-        text-align: center;
+      .modal-title {
+        font-weight: bold;
       }
-      .success-message {
-        color: green;
-        text-align: center;
+      .modal-content.buy {
+        background-color: #d4edda; /* Green for Buy */
+      }
+      .modal-content.sell {
+        background-color: #f8d7da; /* Red for Sell */
       }
     </style>
   </head>
   <body>
-    <div class="login-container">
-      <h1>SmartAPI Login</h1>
-      <form id="loginForm">
-        <label for="apiKey">API Key:</label>
-        <input type="text" id="apiKey" name="apiKey" required />
-
-        <label for="clientCode">Client Code:</label>
-        <input type="text" id="clientCode" name="clientCode" required />
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
-
-        <label for="totp">TOTP Code:</label>
-        <input type="text" id="totp" name="totp" required />
-
-        <label for="macAddress">MAC Address:</label>
-        <input type="text" id="macAddress" name="macAddress" required />
-
-        <button type="submit">Login</button>
-        <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
-      </form>
+    <!-- Place Order Modal -->
+    <div
+      class="modal fade"
+      id="placeOrderModal"
+      tabindex="-1"
+      aria-labelledby="placeOrderModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="placeOrderModalLabel">Place Order</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="placeOrderForm">
+              <div class="mb-3">
+                <label for="symbol" class="form-label">Trading Symbol</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="symbol"
+                  required
+                  placeholder="Enter Symbol (e.g., INFY-EQ)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="quantity"
+                  required
+                  placeholder="Enter Quantity"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="orderType" class="form-label">Order Type</label>
+                <select class="form-control" id="orderType">
+                  <option value="MARKET">Market Order</option>
+                  <option value="LIMIT">Limit Order</option>
+                  <option value="STOPLOSS_MARKET">
+                    Stop Loss Market Order
+                  </option>
+                  <option value="STOPLOSS_LIMIT">Stop Loss Limit Order</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="productType" class="form-label">Product Type</label>
+                <select class="form-control" id="productType">
+                  <option value="INTRADAY">Intraday</option>
+                  <option value="DELIVERY">Delivery</option>
+                  <option value="CARRYFORWARD">Carryforward</option>
+                </select>
+              </div>
+              <input type="hidden" id="symboltoken" value="3045" />
+              <!-- Hidden Symbol Token -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-place-order"
+              id="placeOrderButton"
+            >
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+
     <script>
-      async function getPublicIP() {
-        try {
-          const response = await fetch("https://api.ipify.org?format=json");
-          const data = await response.json();
-          return data.ip;
-        } catch (error) {
-          console.error("Error fetching public IP:", error);
-          return null;
-        }
-      }
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Bootstrap Modal
+        const placeOrderModal = new bootstrap.Modal(
+          document.getElementById("placeOrderModal")
+        );
 
-      // Function to set a cookie
-      function setCookie(name, value, days) {
-        let expires = "";
-        if (days) {
-          const date = new Date();
-          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-          expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-      }
+        // Open modal when needed (for testing, you can trigger manually)
+        placeOrderModal.show();
 
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-          const apiKey = event.target.apiKey.value;
-          const clientCode = event.target.clientCode.value;
-          const password = event.target.password.value; // Consider not storing the password in cookies
-          const totp = event.target.totp.value;
-          const macAddress = event.target.macAddress.value;
-
-          const localIP = "127.0.0.1"; // For local testing
-          const publicIP = await getPublicIP();
-
-          const response = await fetch("/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              apiKey,
-              clientCode,
-              password,
-              totp,
-              localIP,
-              publicIP,
-              macAddress,
-            }),
-          });
-
-          const result = await response.json();
-          if (!result.status) {
-            document.getElementById("errorMessage").innerText =
-              result.message || "Login failed";
-            document.getElementById("successMessage").innerText = ""; // Clear success message
-          } else {
-            document.getElementById("errorMessage").innerText = ""; // Clear error message
-            document.getElementById("successMessage").innerText =
-              "Login successful! Redirecting...";
-
-            // Set cookies for user information
-            setCookie("apiKey", apiKey, 7); // Expires in 7 days
-            setCookie("clientCode", clientCode, 7); // Expires in 7 days
-            setCookie("password", password, 7); // This is not recommended; handle with care
-            setCookie("totp", totp, 7); // This is also sensitive; handle with care
-            setCookie("localIP", localIP, 7); // Store local IP
-            setCookie("publicIP", publicIP, 7); // Store public IP
-            setCookie("macAddress", macAddress, 7); // Store MAC address
-
-            // Store the login response (consider serializing if necessary)
-            setCookie("loginResponse", JSON.stringify(result), 7); // Store response as JSON string
-
-            // Redirect to dashboard after 2 seconds
-            setTimeout(() => {
-              window.location.href = "/dashboard.html";
-            }, 2000);
+        // Handle keyboard events for Buy (+) and Sell (-)
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "+") {
+            // Simulate Buy order
+            setTransactionType("BUY");
+          } else if (event.key === "-") {
+            // Simulate Sell order
+            setTransactionType("SELL");
           }
         });
+
+        // Set transaction type and update modal background color
+        function setTransactionType(transactionType) {
+          const modalContent = document.querySelector(".modal-content");
+          if (transactionType === "BUY") {
+            modalContent.classList.add("buy");
+            modalContent.classList.remove("sell");
+          } else {
+            modalContent.classList.add("sell");
+            modalContent.classList.remove("buy");
+          }
+        }
+
+        // Place Order Button click handler
+        document
+          .getElementById("placeOrderButton")
+          .addEventListener("click", function () {
+            const orderData = getOrderData();
+            console.log(orderData); // You can replace this with your order API call
+            placeOrderModal.hide();
+          });
+
+        // Function to get order data
+        function getOrderData() {
+          const symbol = document.getElementById("symbol").value;
+          const quantity = document.getElementById("quantity").value;
+          const orderType = document.getElementById("orderType").value;
+          const productType = document.getElementById("productType").value;
+          const symboltoken = document.getElementById("symboltoken").value;
+
+          return {
+            exchange: "NSE",
+            tradingsymbol: symbol,
+            quantity: quantity,
+            disclosedquantity: quantity, // Default disclosed quantity is same as quantity
+            transactiontype: document
+              .querySelector(".modal-content")
+              .classList.contains("buy")
+              ? "BUY"
+              : "SELL",
+            ordertype: orderType,
+            producttype: productType,
+            variety: "NORMAL",
+            symboltoken: symboltoken,
+          };
+        }
+      });
     </script>
   </body>
 </html>

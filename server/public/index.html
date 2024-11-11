@@ -743,198 +743,54 @@
               <!-- End Reports -->
 
               <!-- Recent Sales -->
-              <div class="col-12">
-                <div class="card recent-sales overflow-auto">
-                  <div class="filter">
-                    <a class="icon" href="#" data-bs-toggle="dropdown"
-                      ><i class="bi bi-three-dots"></i
-                    ></a>
-                    <ul
-                      class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                    >
-                      <li class="dropdown-header text-start">
-                        <h6>Filter</h6>
-                      </li>
+       <!-- Modal for Order Details -->
+       <div class="card-body pb-0">
+        <h5 class="card-title">Order Book </h5>
 
-                      <li><a class="dropdown-item" href="#">Today</a></li>
-                      <li><a class="dropdown-item" href="#">This Month</a></li>
-                      <li><a class="dropdown-item" href="#">This Year</a></li>
-                    </ul>
-                  </div>
+       
+       <!-- Filters for Order Book -->
+       
+       <!-- Table for Displaying Orders -->
+       <table class="table table-bordered" id="order-book-table">
 
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      Recent Sales <span>| Today</span>
-                    </h5>
-
-                    <table class="table table-borderless datatable">
-                      <thead>
-                        <tr>
-                          <th scope="col">Sr No</th>
-                          <th scope="col">Company Name</th>
-                          <th scope="col"></th>
-                          <th scope="col">Price</th>
-                          <th scope="col">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row"><a href="#">#2457</a></th>
-                          <td>Brandon Jacob</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At praesentium minu</a
-                            >
-                          </td>
-                          <td>$64</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2147</a></th>
-                          <td>Bridie Kessler</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >Blanditiis dolor omnis similique</a
-                            >
-                          </td>
-                          <td>$47</td>
-                          <td><span class="badge bg-warning">Pending</span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>     <tr>
-                          <th scope="row"><a href="#">#2049</a></th>
-                          <td>Ashleigh Langosh</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >At recusandae consectetur</a
-                            >
-                          </td>
-                          <td>$147</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                        
-                        <tr>
-                          <th scope="row"><a href="#">#2644</a></th>
-                          <td>Angus Grady</td>
-                          <td>
-                            <a href="#" class="text-primar"
-                              >Ut voluptatem id earum et</a
-                            >
-                          </td>
-                          <td>$67</td>
-                          <td><span class="badge bg-danger">Rejected</span></td>
-                        </tr>
-                        <tr>
-                          <th scope="row"><a href="#">#2644</a></th>
-                          <td>Raheem Lehner</td>
-                          <td>
-                            <a href="#" class="text-primary"
-                              >Sunt similique distinctio</a
-                            >
-                          </td>
-                          <td>$165</td>
-                          <td>
-                            <span class="badge bg-success">Approved</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+           <thead>
+               <tr>
+                   <th scope="col">Stock Name <i class="fa fa-sort"></i></th>
+                   <th scope="col">Action / Order Type <i class="fa fa-sort"></i></th>
+                   <th scope="col">Qty <i class="fa fa-sort"></i></th>
+                   <th scope="col">Placed Price <i class="fa fa-sort"></i></th>
+                   <th scope="col">Exec Price <i class="fa fa-sort"></i></th>
+                   <th scope="col">Status <i class="fa fa-sort"></i></th>
+                   <th scope="col">Details</th> <!-- Column for three dots -->
+               </tr>
+           </thead>
+           <tbody id="order-book-tbody">
+               <!-- Data rows will be inserted here -->
+           </tbody>
+       </table>
+       
+       <!-- Modal for Order Details -->
+       <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+           <div class="modal-dialog">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <p><strong>Order Placed on:</strong> <span id="order-placed-date"></span></p>
+                       <p><strong>Product Type:</strong> <span id="product-type"></span></p>
+                       <p><strong>Action:</strong> <span id="action"></span></p>
+                       <p><strong>Order Type:</strong> <span id="order-type"></span></p>
+                       <p><strong>Order ID:</strong> <span id="order-id"></span></p>
+                   
+                       <p><strong>Status Reason:</strong> <span id="status-reason"></span></p>
+                   </div>
+               </div>
+           </div>
+       </div>
+       
+                  
               <!-- End Recent Sales -->
 
               <!-- Top Selling -->
@@ -1444,11 +1300,336 @@
     <script src="assets/vendor/chart.js/chart.umd.js"></script>
     <script src="assets/vendor/echarts/echarts.min.js"></script>
     <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <!-- <script src="assets/vendor/simple-datatables/simple-datatables.js"></script> -->
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    
+<!-- HTML Part for Filters -->
+
+<!-- JavaScript Part -->
+<script>
+  let orders = []; // Store orders globally
+
+  // Fetch order book data and populate table
+  async function fetchOrderBook() {
+      try {
+          const response = await fetch('/getOrderBook'); // Make API call to backend
+
+          if (!response.ok) {
+              alert("Failed to load order book data");
+              return;
+          }
+
+          const data = await response.json(); // Parse the response as JSON
+
+          if (data && data.status) {
+              orders = data.data; // Store orders
+
+              const tableBody = document.getElementById("order-book-tbody");
+
+              if (!tableBody) {
+                  console.error("Error: Element with id 'order-book-tbody' not found in the DOM");
+                  return;
+              }
+
+              // Clear existing rows
+              tableBody.innerHTML = '';
+
+              // Populate table with orders
+              orders.forEach(order => {
+                  const row = document.createElement("tr");
+
+                  // Stock Name (tradingsymbol)
+                  const stockNameCell = document.createElement("th");
+                  stockNameCell.setAttribute("scope", "row");
+                  stockNameCell.innerHTML = `<a href="#">${order.tradingsymbol || '-'}</a>`;
+                  row.appendChild(stockNameCell);
+
+                  // Action / Order Type (transactiontype, ordertype)
+                  const actionOrderTypeCell = document.createElement("td");
+                  actionOrderTypeCell.textContent = `${order.transactiontype || '-'} / ${order.ordertype || '-'}`;
+                  row.appendChild(actionOrderTypeCell);
+
+                  // Qty (quantity)
+                  const qtyCell = document.createElement("td");
+                  qtyCell.textContent = order.quantity || '-';
+                  row.appendChild(qtyCell);
+
+                  // Placed Price (price)
+                  const placedPriceCell = document.createElement("td");
+                  placedPriceCell.textContent = order.price || '-';
+                  row.appendChild(placedPriceCell);
+
+                  // Exec Price (averageprice)
+                  const execPriceCell = document.createElement("td");
+                  execPriceCell.textContent = order.averageprice || '-';
+                  row.appendChild(execPriceCell);
+
+                  // Status (orderstatus and reason)
+                  const statusCell = document.createElement("td");
+                  const statusBadge = document.createElement("span");
+                  statusBadge.classList.add("badge");
+
+                  // Determine the color and reason
+                  let statusReason = order.orderstatus || "Unknown";
+                  if (order.orderstatus === 'rejected' || order.orderstatus === 'canceled') {
+                      statusBadge.classList.add("bg-danger");
+                  } else if (order.orderstatus === 'complete') {
+                      statusBadge.classList.add("bg-success");
+                  } else {
+                      statusBadge.classList.add("bg-warning");
+                  }
+                  statusBadge.textContent = statusReason;
+                  statusCell.appendChild(statusBadge);
+                  row.appendChild(statusCell);
+
+                  // Details Column (Three Dots for Modal)
+                  const detailsCell = document.createElement("td");
+                  const detailsButton = document.createElement("button");
+                  detailsButton.textContent = "...";
+                  detailsButton.classList.add("btn", "btn-link");
+                  detailsButton.setAttribute("data-bs-toggle", "modal");
+                  detailsButton.setAttribute("data-bs-target", "#orderDetailsModal");
+                  detailsButton.addEventListener("click", function () {
+                      // Show order details in modal
+                      document.getElementById("order-placed-date").textContent = order.updatetime || '-';
+                      document.getElementById("product-type").textContent = order.producttype || '-';
+                      document.getElementById("action").textContent = order.transactiontype || '-';
+                      document.getElementById("order-type").textContent = order.ordertype || '-';
+                      document.getElementById("order-id").textContent = order.orderid || '-';
+                    
+                      document.getElementById("status-reason").textContent = order.text || '-';
+                  });
+                  detailsCell.appendChild(detailsButton);
+                  row.appendChild(detailsCell);
+
+                  // Append the row to the table body
+                  tableBody.appendChild(row);
+              });
+
+              // Enable filtering after the table is populated
+              initializeDataTable();
+              enableFilters();
+
+          } else {
+              alert('Failed to load order book data');
+          }
+      } catch (error) {
+          console.error("Error fetching order book:", error);
+          alert('An error occurred while fetching the order book data');
+      }
+  }
+
+  // Initialize DataTable with sorting, pagination, etc.
+  function initializeDataTable() {
+      $('#order-book-table').DataTable({
+          "pagingType": "simple_numbers", // Pagination type
+          "lengthMenu": [10, 25, 50, 100], // Entries per page options
+          "order": [], // Disable initial sorting
+          "searching": true, // Enable searching/filtering
+          "autoWidth": true // Auto column width
+      });
+  }
+
+  // Enable filters and autocomplete
+  function enableFilters() {
+      const stockNames = [...new Set(orders.map(order => order.tradingsymbol))];
+      const orderTypes = [...new Set(orders.map(order => order.ordertype))];
+      const statuses = [...new Set(orders.map(order => order.orderstatus))];
+
+      // Autocomplete for Stock Name
+      $("#filter-symbol").autocomplete({
+          source: stockNames,
+          minLength: 2 // Minimum characters to start filtering
+      });
+
+      // Autocomplete for Order Type
+      $("#filter-order-type").autocomplete({
+          source: orderTypes,
+          minLength: 2
+      });
+
+      // Autocomplete for Status
+      $("#filter-status").autocomplete({
+          source: statuses,
+          minLength: 2
+      });
+  }
+
+  // Call the fetch function on page load
+  fetchOrderBook();
+</script>
+<!-- Include jQuery UI for autocomplete -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+  .modal-content {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+  }
+
+  .modal-header {
+      background-color: #343a40;
+      color: white;
+  }
+
+  .badge {
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 15px;
+  }
+
+  .bg-danger {
+      background-color: #dc3545 !important;
+      color: white;
+  }
+
+  .bg-success {
+      background-color: #28a745 !important;
+      color: white;
+  }
+
+  .bg-warning {
+      background-color: #ffc107 !important;
+      color: black;
+  }
+
+  .btn-link {
+      color: #007bff;
+      cursor: pointer;
+  }
+
+  .btn-link:hover {
+      text-decoration: underline;
+  }
+
+  .table td, .table th {
+      vertical-align: middle;
+  }
+
+  /* Style for the modal */
+  .modal-dialog {
+      max-width: 600px;
+  }
+
+  .modal-body p {
+      font-size: 14px;
+  }
+</style>
+
+    
+
+<!-- Modal for Order Placement -->
+<div class="modal" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">Place Order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="orderForm">
+          <div class="mb-3">
+            <label for="tradingsymbol" class="form-label">Stock Symbol</label>
+            <input type="text" class="form-control" id="tradingsymbol" required>
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="quantity" required>
+          </div>
+          <div class="mb-3">
+            <label for="disclosedquantity" class="form-label">Disclosed Quantity</label>
+            <input type="number" class="form-control" id="disclosedquantity" required>
+          </div>
+          <div class="mb-3">
+            <label for="ordertype" class="form-label">Order Type</label>
+            <select class="form-select" id="ordertype" required>
+              <option value="LIMIT">Limit</option>
+              <option value="MARKET">Market</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="transactiontype" class="form-label">Transaction Type</label>
+            <input type="text" class="form-control" id="transactiontype" readonly required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Order</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+  const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+  const transactionTypeInput = document.getElementById('transactiontype');
+  
+  // Handle the key press for Buy (+) and Sell (-)
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '+') {
+      openOrderModal('BUY');
+    } else if (e.key === '-') {
+      openOrderModal('SELL');
+    }
+  });
+  
+  // Function to open the order modal with the correct transaction type
+  function openOrderModal(transactionType) {
+    transactionTypeInput.value = transactionType;
+    orderModal.show();
+  }
+
+  // Handle the form submission
+  document.getElementById('orderForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Collect form data
+    const orderData = {
+      tradingsymbol: document.getElementById('tradingsymbol').value,
+      quantity: document.getElementById('quantity').value,
+      disclosedquantity: document.getElementById('disclosedquantity').value,
+      transactiontype: transactionTypeInput.value,
+      ordertype: document.getElementById('ordertype').value
+    };
+
+    // Prepare the data for sending to the API
+    const data = JSON.stringify({
+      exchange: "NSE",
+      tradingsymbol: orderData.tradingsymbol,
+      quantity: orderData.quantity,
+      disclosedquantity: orderData.disclosedquantity,
+      transactiontype: orderData.transactiontype,
+      ordertype: orderData.ordertype,
+      variety: "NORMAL",
+      producttype: "INTRADAY"
+    });
+
+    // Send the order data to your API
+    axios.post('/place-order', data)
+      .then(response => {
+        console.log('Order placed successfully:', response.data);
+        alert('Order placed successfully!');
+        orderModal.hide(); // Close the modal after submission
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+        alert('Failed to place order.');
+      });
+  });
+});
+<script>
+    
+
   </body>
 </html>
