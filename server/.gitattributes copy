@@ -1,5 +1,0 @@
-# Force LF for text files
-*.css text eol=lf
-*.csv text eol=lf
-*.js text eol=lf
-*.json text eol=lf
