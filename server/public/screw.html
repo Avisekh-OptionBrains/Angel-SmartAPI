@@ -118,72 +118,149 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 
+    <!-- Modal for Order Placement -->
+    <div
+      class="modal"
+      id="orderModal"
+      tabindex="-1"
+      aria-labelledby="orderModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderModalLabel">Place Order</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="orderForm">
+              <div class="mb-3">
+                <label for="tradingsymbol" class="form-label"
+                  >Stock Symbol</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tradingsymbol"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="quantity"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="disclosedquantity" class="form-label"
+                  >Disclosed Quantity</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="disclosedquantity"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="ordertype" class="form-label">Order Type</label>
+                <select class="form-select" id="ordertype" required>
+                  <option value="LIMIT">Limit</option>
+                  <option value="MARKET">Market</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="transactiontype" class="form-label"
+                  >Transaction Type</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="transactiontype"
+                  readonly
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Submit Order
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Initialize Bootstrap Modal
-        const placeOrderModal = new bootstrap.Modal(
-          document.getElementById("placeOrderModal")
+        const orderModal = new bootstrap.Modal(
+          document.getElementById("orderModal")
         );
+        const transactionTypeInput = document.getElementById("transactiontype");
 
-        // Open modal when needed (for testing, you can trigger manually)
-        placeOrderModal.show();
-
-        // Handle keyboard events for Buy (+) and Sell (-)
-        document.addEventListener("keydown", function (event) {
-          if (event.key === "+") {
-            // Simulate Buy order
-            setTransactionType("BUY");
-          } else if (event.key === "-") {
-            // Simulate Sell order
-            setTransactionType("SELL");
+        // Handle the key press for Buy (+) and Sell (-)
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "+") {
+            openOrderModal("BUY");
+          } else if (e.key === "-") {
+            openOrderModal("SELL");
           }
         });
 
-        // Set transaction type and update modal background color
-        function setTransactionType(transactionType) {
-          const modalContent = document.querySelector(".modal-content");
-          if (transactionType === "BUY") {
-            modalContent.classList.add("buy");
-            modalContent.classList.remove("sell");
-          } else {
-            modalContent.classList.add("sell");
-            modalContent.classList.remove("buy");
-          }
+        // Function to open the order modal with the correct transaction type
+        function openOrderModal(transactionType) {
+          transactionTypeInput.value = transactionType;
+          orderModal.show();
         }
 
-        // Place Order Button click handler
+        // Handle the form submission
         document
-          .getElementById("placeOrderButton")
-          .addEventListener("click", function () {
-            const orderData = getOrderData();
-            console.log(orderData); // You can replace this with your order API call
-            placeOrderModal.hide();
+          .getElementById("orderForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const orderData = {
+              tradingsymbol: document.getElementById("tradingsymbol").value,
+              quantity: document.getElementById("quantity").value,
+              disclosedquantity:
+                document.getElementById("disclosedquantity").value,
+              transactiontype: transactionTypeInput.value,
+              ordertype: document.getElementById("ordertype").value,
+            };
+
+            // Prepare the data for sending to the API
+            const data = JSON.stringify({
+              exchange: "NSE",
+              tradingsymbol: orderData.tradingsymbol,
+              quantity: orderData.quantity,
+              disclosedquantity: orderData.disclosedquantity,
+              transactiontype: orderData.transactiontype,
+              ordertype: orderData.ordertype,
+              variety: "NORMAL",
+              producttype: "INTRADAY",
+            });
+
+            // Send the order data to your API
+            axios
+              .post("/place-order", data)
+              .then((response) => {
+                console.log("Order placed successfully:", response.data);
+                alert("Order placed successfully!");
+                orderModal.hide(); // Close the modal after submission
+              })
+              .catch((error) => {
+                console.error("Error placing order:", error);
+                alert("Failed to place order.");
+              });
           });
-
-        // Function to get order data
-        function getOrderData() {
-          const symbol = document.getElementById("symbol").value;
-          const quantity = document.getElementById("quantity").value;
-          const orderType = document.getElementById("orderType").value;
-          const productType = document.getElementById("productType").value;
-          const symboltoken = document.getElementById("symboltoken").value;
-
-          return {
-            exchange: "NSE",
-            tradingsymbol: symbol,
-            quantity: quantity,
-            disclosedquantity: quantity, // Default disclosed quantity is same as quantity
-            transactiontype: document
-              .querySelector(".modal-content")
-              .classList.contains("buy")
-              ? "BUY"
-              : "SELL",
-            ordertype: orderType,
-            producttype: productType,
-            variety: "NORMAL",
-            symboltoken: symboltoken,
-          };
-        }
       });
     </script>
   </body>

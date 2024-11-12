@@ -1,48 +1,30 @@
 const express = require("express");
-const axios = require("axios");
-const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const app = express();
-const PORT = 3000; // Choose your port
 
-app.use(bodyParser.json());
-app.use(express.static("public")); // Serve HTML file from 'public' directory
+app.use(cookieParser());
 
-app.post("/login", async (req, res) => {
-  const { apiKey, clientCode, password, totp, localIP, publicIP, macAddress } =
-    req.body;
+app.post("/cancelOrder", (req, res) => {
+  console.log("Cookies:", req.cookies);
 
-  const data = {
-    clientcode: clientCode,
-    password: password,
-    totp: totp,
-  };
+  const jwtToken = req.cookies.jwtToken;
+  const macAddress = req.cookies.macAddress;
+  const apiKey = req.cookies.apiKey;
+  const localIP = req.cookies.localIP;
+  const publicIP = req.cookies.publicIP;
 
-  const config = {
-    method: "post",
-    url: "https://apiconnect.angelone.in/rest/auth/angelbroking/user/v1/loginByPassword",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "X-UserType": "USER",
-      "X-SourceID": "WEB",
-      "X-ClientLocalIP": localIP, // Use the fetched local IP
-      "X-ClientPublicIP": publicIP, // Use the fetched public IP
-      "X-MACAddress": macAddress, // Use the input MAC address
-      "X-PrivateKey": apiKey,
-    },
-    data: data,
-  };
+  console.log("JWT Token:", jwtToken);
+  console.log("MAC Address:", macAddress);
+  console.log("API Key:", apiKey);
+  console.log("Local IP:", localIP);
+  console.log("Public IP:", publicIP);
 
-  try {
-    const response = await axios(config);
-    res.json(response.data);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Login failed" });
-  }
+  // ... your POST request logic using the cookie data ...
+
+  res.send("POST request received");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(3000, () => {
+  console.log("Server listening on port 3000");
 });
