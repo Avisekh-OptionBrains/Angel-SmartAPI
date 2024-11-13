@@ -2,7 +2,42 @@ const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+// main.js
 
+// anotherFile.js
+const getCredentials = require("./cred"); // Adjust path accordingly
+
+// Invoke the function to get the credentials
+(async () => {
+  try {
+    const credentials = await getCredentials(); // Wait for the values to be fetched
+
+    // Now you can use these as variables
+    const publicIp = credentials.publicIp;
+    const macAddress = credentials.macAddress;
+    const localIp = credentials.localIp;
+    const jwtToken = credentials.jwtToken;
+    const apiKey = credentials.apiKey;
+
+    // Example usage of the variables in your project
+    console.log("Public IP:", publicIp);
+    console.log("MAC Address:", macAddress);
+    console.log("Local IP:", localIp);
+    console.log("JWT Token:", jwtToken);
+    console.log("API Key:", apiKey);
+
+    // You can now use these values in your project logic, e.g.,
+    // making an API request with the JWT token, using the local IP for network-related tasks, etc.
+
+    // Example: Passing the API key and token to an API request
+    // const response = await someApiRequest({
+    //   headers: { Authorization: `Bearer ${jwtToken}` },
+    //   params: { apiKey }
+    // });
+  } catch (err) {
+    console.error("Error getting credentials:", err); // Handle any error
+  }
+})();
 const { MongoClient } = require("mongodb");
 
 const CONFIG = require("./config"); // Import your config file
@@ -14,6 +49,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static("public")); // Serve HTML file from 'public' directory
+
+//////////////// credentials ////////////////
+
+// const macAddress = getMacAddress();
 
 // Login route to authenticate user
 app.post("/login", async (req, res) => {
@@ -534,11 +573,20 @@ app.post("/autoPlaceOrder", async (req, res) => {
   const { symbol, price, transactionType } = parsedData;
 
   try {
+    // Fetch credentials asynchronously
+    const credentials = await getCredentials();
+    const { jwtToken, macAddress, localIp, publicIp, apiKey } = credentials;
+    console.log("Credentials:", credentials);
+
+    if (!jwtToken || !macAddress || !localIp || !publicIp || !apiKey) {
+      return res
+        .status(400)
+        .json({ error: "Missing credentials for the order" });
+    }
+
     const document = await findSymbolInDatabase(symbol);
 
     if (document) {
-      // console.log("Found document:", document); // Logs the entire object to the console
-
       // Sending message to Epicrise Telegram Channel
       console.log("Route: Sending message to Epicrise");
       const telegramResponse = await sendMessageToTelegram(
@@ -557,7 +605,7 @@ app.post("/autoPlaceOrder", async (req, res) => {
         // Calculate squareoff (6% above the price) and stoploss (2.5% below the price)
         const squareoff = price * 1.06; // 6% above price
         const stoploss = price * 0.975; // 2.5% below price
-        const quantity = Math.floor(9000 / price); // Quantity based on the price (9000 INR in total)
+        const quantity = Math.floor(4000 / price); // Quantity based on the price (9000 INR in total)
 
         // Ensure no decimals in price, squareoff, stoploss, and quantity
         const squareoffRounded = Math.floor(squareoff);
@@ -587,20 +635,8 @@ app.post("/autoPlaceOrder", async (req, res) => {
 
         // Define the data to be sent to the external API
         const data = JSON.stringify(orderDataJson);
-        const jwtToken = req.cookies?.jwtToken;
-        const macAddress = req.cookies?.macAddress;
-        const apiKey = req.cookies?.apiKey;
-        const localIP = req.cookies?.localIP;
-        const publicIP = req.cookies?.publicIP;
 
-        console.log(
-          orderDataJson,
-          jwtToken,
-          macAddress,
-          apiKey,
-          localIP,
-          publicIP
-        );
+        // Now, use the fetched credentials in the headers
         const config = {
           method: "post",
           url: "https://apiconnect.angelone.in/rest/secure/angelbroking/order/v1/placeOrder",
@@ -610,15 +646,15 @@ app.post("/autoPlaceOrder", async (req, res) => {
             Accept: "application/json",
             "X-UserType": "USER",
             "X-SourceID": "WEB",
-            "X-ClientLocalIP": localIP,
-            "X-ClientPublicIP": publicIP,
+            "X-ClientLocalIP": localIp,
+            "X-ClientPublicIP": publicIp,
             "X-MACAddress": macAddress,
             "X-PrivateKey": apiKey,
           },
 
           data: data,
         };
-
+        // console.log("Config:", config);
         const placeOrderResponse = await axios(config);
         res.json({
           telegramResponse: telegramResponse,
@@ -633,6 +669,44 @@ app.post("/autoPlaceOrder", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//// limit route
+
+app.get("/getRMS", async (req, res) => {
+  const jwtToken = req.cookies?.jwtToken;
+  const macAddress = req.cookies?.macAddress;
+  const apiKey = req.cookies?.apiKey;
+  const localIP = req.cookies?.localIP;
+  const publicIP = req.cookies?.publicIP;
+
+  if (!jwtToken || !localIP || !publicIP || !macAddress || !apiKey) {
+    return res.status(400).json({ error: "Missing required cookie values" });
+  }
+
+  const config = {
+    method: "get",
+    url: "https://apiconnect.angelone.in/rest/secure/angelbroking/user/v1/getRMS",
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "X-UserType": "USER",
+      "X-SourceID": "WEB",
+      "X-ClientLocalIP": localIP,
+      "X-ClientPublicIP": publicIP,
+      "X-MACAddress": macAddress,
+      "X-PrivateKey": apiKey,
+    },
+  };
+
+  try {
+    const response = await axios(config);
+    res.json(response.data); // Send response data back to the client
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while fetching data" });
   }
 });
 
